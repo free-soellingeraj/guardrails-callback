@@ -38,7 +38,7 @@ class Guard:
         rail: Rail,
         num_reasks: int = 1,
         base_model: Optional[BaseModel] = None,
-        callbacks: Iterable[Callback] = []
+        callbacks: Iterable[Callback] = ()
     ):
         """Initialize the Guard."""
         self.rail = rail
@@ -116,7 +116,7 @@ class Guard:
 
     @classmethod
     def from_rail(cls, rail_file: str, num_reasks: int = 1,
-        callbacks: Iterable[Callback] = []) -> "Guard":
+        callbacks: Iterable[Callback] = ()) -> "Guard":
         """Create a Schema from a `.rail` file.
 
         Args:
@@ -131,7 +131,7 @@ class Guard:
 
     @classmethod
     def from_rail_string(cls, rail_string: str, num_reasks: int = 1,
-        callbacks: Iterable[Callback] = []) -> "Guard":
+        callbacks: Iterable[Callback] = ()) -> "Guard":
         """Create a Schema from a `.rail` string.
 
         Args:
@@ -151,7 +151,7 @@ class Guard:
         prompt: str,
         instructions: Optional[str] = None,
         num_reasks: int = 1,
-        callbacks: Iterable[Callback] = []
+        callbacks: Iterable[Callback] = ()
     ) -> "Guard":
         """Create a Guard instance from a Pydantic model and prompt."""
         rail = Rail.from_pydantic(

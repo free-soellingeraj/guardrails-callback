@@ -53,7 +53,7 @@ class Runner:
     reask_prompt: Optional[Prompt] = None
     guard_history: GuardHistory = field(default_factory=lambda: GuardHistory([]))
     base_model: Optional[BaseModel] = None
-    callbacks: Iterable[Callback] = []
+    callbacks: Iterable[Callback] = ()
 
     def _reset_guard_history(self):
         """Reset the guard history."""
@@ -127,7 +127,7 @@ class Runner:
         input_schema: Schema,
         output_schema: Schema,
         output: str = None,
-        callbacks: Iterable[Callback] = []
+        callbacks: Iterable[Callback] = ()
     ):
         """Run a full step."""
         with start_action(
@@ -460,7 +460,7 @@ class AsyncRunner(Runner):
         input_schema: Schema,
         output_schema: Schema,
         output: str = None,
-        callbacks: Iterable[Callback] = []
+        callbacks: Iterable[Callback] = ()
     ):
         """Run a full step."""
         with start_action(
