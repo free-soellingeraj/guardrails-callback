@@ -175,21 +175,17 @@ class Runner:
                     prompt_params=prompt_params,
                     input_schema=input_schema,
                     output_schema=output_schema,
-                    instructions=instructions,
-                    prompt=prompt
                 )
 
             # Before Call: run callbacks before_call
             for callback in callbacks:
                 callback.before_call(
                     index=index,
-                    instructions=instructions,
                     prompt=prompt,
                     prompt_params=prompt_params,
                     input_schema=input_schema,
                     output_schema=output_schema,
                     instructions=instructions,
-                    prompt=prompt
                 )
 
             # Call: run the API.
