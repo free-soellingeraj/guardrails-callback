@@ -130,7 +130,7 @@ class Guard:
             callbacks=callbacks)
 
     @classmethod
-    def from_rail_string(cls, rail_string: str, num_reasks: int = 1
+    def from_rail_string(cls, rail_string: str, num_reasks: int = 1,
         callbacks: Iterable[Callback] = []) -> "Guard":
         """Create a Schema from a `.rail` string.
 
@@ -141,7 +141,7 @@ class Guard:
         Returns:
             An instance of the `Guard` class.
         """
-        return cls(Rail.from_string(rail_string), num_reasks=num_reasks
+        return cls(Rail.from_string(rail_string), num_reasks=num_reasks,
             callbacks=callbacks)
 
     @classmethod
