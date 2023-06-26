@@ -1,35 +1,51 @@
 from guardrails.callback import Callback
-from guardrails.rail import Rail
 
+import pytest
 
-def test_rail_scalar_string_with_callbacks():
-    rail_spec = """ 
+import guardrails as gd
+from guardrails.utils.constants import constants
+
+INSTRUCTIONS = "You are a helpful bot, who answers only with valid JSON"
+
+PROMPT = "Extract a string from the text"
+
+SIMPLE_RAIL_SPEC = f"""
 <rail version="0.1">
 <output>
-  <string name="string_name" />
+    <string name="test_string" description="A string for testing." />
 </output>
-
 <instructions>
-Hello world
+
+{INSTRUCTIONS}
+
 </instructions>
 
 <prompt>
-Hello world
-</prompt>
 
+{PROMPT}
+
+</prompt>
 </rail>
 """
-    test_callbacks = (
-        Callback(
-            before_prepare=lambda **kwargs: print('before_prepare success! 1'), 
-            after_prepare=lambda **kwargs: print('after_prepare success! 1'), 
-            before_call=lambda **kwargs: print('before_call success! 1')
-        ),
-        Callback(
-            before_prepare=lambda **kwargs: print('before_prepare success! 2'), 
-            after_prepare=lambda **kwargs: print('after_prepare success! 2'), 
-            before_call=lambda **kwargs: print('before_call success! 2')
-        )
+
+test_callbacks = (
+    Callback(
+        before_prepare=lambda **kwargs: print('before_prepare success! 1'),
+        after_prepare=lambda **kwargs: print('after_prepare success! 1'),
+        before_call=lambda **kwargs: print('before_call success! 1')
+    ),
+    Callback(
+        before_prepare=lambda **kwargs: print('before_prepare success! 2'),
+        after_prepare=lambda **kwargs: print('after_prepare success! 2'),
+        before_call=lambda **kwargs: print('before_call success! 2')
     )
-    Rail.from_string(rail_spec, callbacks=test_callbacks)
+)
+
+def test_parse_prompt_with_callbacks():
+    """Test parsing a prompt."""
+    guard = gd.Guard.from_rail_string(SIMPLE_RAIL_SPEC, callbacks=test_callbacks)
+
+    # Strip both, raw and parsed, to be safe
+    assert guard.instructions.format().source.strip() == INSTRUCTIONS.strip()
+    assert guard.prompt.format().source.strip() == PROMPT.strip()
 
