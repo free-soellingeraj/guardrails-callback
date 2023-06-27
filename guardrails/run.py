@@ -86,11 +86,13 @@ class Runner:
             output_schema=self.output_schema,
             num_reasks=self.num_reasks,
         ):
-            instructions, prompt, input_schema, output_schema = (
+            instructions, prompt, input_schema, output_schema, \
+            callbacks = (
                 self.instructions,
                 self.prompt,
                 self.input_schema,
                 self.output_schema,
+                self.callbacks
             )
             for index in range(self.num_reasks + 1):
                 # Run a single step.
@@ -103,6 +105,7 @@ class Runner:
                     input_schema=input_schema,
                     output_schema=output_schema,
                     output=self.output if index == 0 else None,
+                    callbacks=callbacks
                 )
 
                 # Loop again?
@@ -127,7 +130,7 @@ class Runner:
         input_schema: Schema,
         output_schema: Schema,
         output: str = None,
-        callbacks: Iterable[Callback] = ()
+        callbacks: Iterable[Callback] = (),
     ):
         """Run a full step."""
         with start_action(
@@ -419,11 +422,12 @@ class AsyncRunner(Runner):
             output_schema=self.output_schema,
             num_reasks=self.num_reasks,
         ):
-            instructions, prompt, input_schema, output_schema = (
+            instructions, prompt, input_schema, output_schema, callbacks = (
                 self.instructions,
                 self.prompt,
                 self.input_schema,
                 self.output_schema,
+                self.callbacks
             )
             for index in range(self.num_reasks + 1):
                 # Run a single step.
@@ -436,6 +440,7 @@ class AsyncRunner(Runner):
                     input_schema=input_schema,
                     output_schema=output_schema,
                     output=self.output if index == 0 else None,
+                    callbacks=callbacks
                 )
 
                 # Loop again?
